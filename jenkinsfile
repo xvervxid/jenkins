@@ -1,1 +1,21 @@
+pipeline {
+    agent any
 
+    stages {
+        // Этап клонирования репозитория
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', 
+                url: 'https://github.com/your-username/your-repo.git'
+            }
+        }
+
+        // Этап сборки Docker-образа
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Сборка образа с тегом, содержащим номер сборки
+                    dockerImage = docker.build("your-image-name:${env.BUILD_NUMBER}")
+                }
+            }
+        }
